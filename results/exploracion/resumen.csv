@@ -1,0 +1,18 @@
+﻿metrica,entrenamiento,validacion
+imagenes_esperadas,20210,2000
+imagenes,20210,2000
+mascaras,20210,2000
+imagenes_sin_mascara,0,0
+mascaras_sin_imagen,0,0
+mascaras_de_tamano_distinto,0,0
+mascaras_con_valores_mayores_a_150,0,0
+ancho_min,130,200
+ancho_max,2100,1600
+ancho_media,516.0,524.0
+ancho_mediana,512.0,538.5
+alto_min,96,172
+alto_max,2100,1600
+alto_media,416.5,427.3
+alto_mediana,480.0,510.5
+modos_de_color_imagenes,RGB: 20206; L: 4,RGB: 2000
+modos_de_color_mascaras,L: 20210,L: 2000

@@ -1,8 +1,10 @@
 # Segmentación semántica de escenas con U-Net
 
-Proyecto académico de la subcompetencia SMA0401C Aprendizaje e IA del Tecnológico de Monterrey.
+Proyecto académico de Deep Learning 
 
-El objetivo es entrenar un modelo de aprendizaje profundo que asigne a cada píxel de una imagen una de 150 clases, por ejemplo cielo, pared, árbol, persona, calle o carro. Se usa una arquitectura U-Net entrenada desde cero con TensorFlow y Keras, y se documentan los experimentos realizados para mejorarla.
+Subcompetencia SMA0401C Aprendizaje e IA
+
+El objetivo es entrenar un modelo de aprendizaje profundo que asigne a cada píxel de una imagen una de 150 clases, por ejemplo cielo, pared, árbol, persona, calle o carro. Se usa una arquitectura U-Net entrenada desde cero usando los frameworks TensorFlow y Keras y se documentan los métodos para mejorarla en un paper.
 
 ## Dataset
 
@@ -14,16 +16,25 @@ El dataset no se incluye en este repositorio. Sus imágenes se publican solo par
 
 ### Descarga
 
-Desde la raíz del repositorio. El archivo pesa alrededor de 1 GB.
+Desde la raíz del repositorio y con el entorno activo:
 
 ```bash
-wget http://data.csail.mit.edu/places/ADEchallenge/ADEChallengeData2016.zip -P data/
-unzip data/ADEChallengeData2016.zip -d data/
+python src/download_data.py
 ```
+
+El script descarga el zip oficial, que pesa alrededor de 1 GB, después lo descomprime en `data/`, borra el zip y verifica que estén las 20,210 imágenes de entrenamiento con las 2,000 de validación con máscaras, en caso de que el dataset ya está en `data/` solo hace la verificación.
+
+### Exploración
+
+```bash
+python src/explore_data.py
+```
+
+Verifica que cada imagen tenga su máscara del mismo tamaño, mide las imágenes y calcula la distribución de las clases. Los resultados se guardan en `results/exploracion/`.
 
 ### Separación de datos
 
-Las anotaciones del set de prueba oficial no son públicas. Por eso el set de entrenamiento oficial se divide en entrenamiento y validación con una semilla fija, y las 2,000 imágenes de validación oficiales se usan como set de prueba.
+Las anotaciones del set de prueba oficial no son públicas, por eso el set de entrenamiento oficial se divide en entrenamiento y validación con una semilla fija y las 2,000 imágenes de validación oficiales se usan como set de prueba.
 
 ## Requisitos
 
@@ -54,13 +65,13 @@ Si no se cuenta con una GPU NVIDIA, se debe instalar `tensorflow==2.21.0` en lug
 
 ### TensorFlow no detecta la GPU por libcusolver.so.11
 
-Si el comando anterior devuelve una lista vacía y aparece el aviso `Cannot dlopen some GPU libraries`, se puede ver qué librería falló con el registro detallado de TensorFlow:
+Si el comando anterior devuelve una lista vacía y aparece el aviso `Cannot dlopen some GPU libraries` se puede ver qué librería falló con el registro detallado de TensorFlow:
 
 ```bash
 TF_CPP_MAX_VLOG_LEVEL=3 python -c "import tensorflow as tf; tf.config.list_physical_devices('GPU')" 2>&1 | grep -i "could not load"
 ```
 
-En este proyecto, con Fedora 44 y TensorFlow 2.21.0, la única librería que falló fue `libcusolver.so.11`. Pip sí la instala dentro de `.venv`, pero TensorFlow no la busca en esa carpeta. La solución es agregar las carpetas de librerías de NVIDIA a `LD_LIBRARY_PATH` cada vez que se activa el entorno:
+En este proyecto al momento de probar esto se hizo con Fedora 44 y TensorFlow 2.21.0, la única librería que falló fue `libcusolver.so.11`. Pip sí la instala dentro de `.venv`, pero TensorFlow no la busca en esa carpeta. La solución es agregar las carpetas de librerías de NVIDIA a `LD_LIBRARY_PATH` cada vez que se activa el entorno:
 
 ```bash
 cat >> .venv/bin/activate << 'EOF'
