@@ -1,0 +1,20 @@
+# Entorno virtual
+.venv/
+
+# Dataset ADE20K: no se redistribuye por su licencia
+data/*
+!data/.gitkeep
+
+# Modelos entrenados: pueden superar el límite de 100 MB de GitHub
+models/*
+!models/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Editor
+.vscode/
+
+# Archivos temporales de Word (se crean mientras el .docx está abierto)
+~$*
