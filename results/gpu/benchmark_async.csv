@@ -1,0 +1,17 @@
+﻿precision,filtros_iniciales,parametros,batch,estado,memoria_max_mb,ms_por_paso,imagenes_por_segundo
+float32,32,7765014,2,ok,2312,56.1,35.7
+float32,32,7765014,4,ok,2848,100.8,39.7
+float32,32,7765014,8,ok,2576,200.0,40.0
+float32,32,7765014,16,sin memoria,,,
+float32,64,31041430,2,ok,2216,147.6,13.5
+float32,64,31041430,4,ok,2473,278.0,14.4
+float32,64,31041430,8,ok,3449,570.3,14.0
+float32,64,31041430,16,sin memoria,,,
+mixed_float16,32,7765014,2,ok,508,31.7,63.0
+mixed_float16,32,7765014,4,ok,2843,56.4,71.0
+mixed_float16,32,7765014,8,ok,1641,106.3,75.3
+mixed_float16,32,7765014,16,ok,2930,230.4,69.5
+mixed_float16,64,31041430,2,ok,1093,79.7,25.1
+mixed_float16,64,31041430,4,ok,1669,141.2,28.3
+mixed_float16,64,31041430,8,ok,2822,289.1,27.7
+mixed_float16,64,31041430,16,sin memoria,,,
