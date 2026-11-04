@@ -1,14 +1,14 @@
 ''' Pipeline de datos: divide ADE20K en entrenamiento, validación y prueba y prepara los batches para el modelo '''
 
-import csv
 import resource
 import time
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 
-from config import ANNOTATIONS_DIR, BATCH_SIZE, CACHE, CACHE_DIR, IGNORE_LABEL, IMAGES_DIR, IMG_SIZE, NUM_CLASSES, RESULTS_DIR, SEED, SHUFFLE_BUFFER, VAL_FRACTION
+from config import ANNOTATIONS_DIR, BATCH_SIZE, CACHE, CACHE_DIR, IMAGES_DIR, IMG_SIZE, NUM_CLASSES, RESULTS_DIR, SEED, SHUFFLE_BUFFER, VAL_FRACTION
 
 SPLIT_FILE = RESULTS_DIR / "division_datos.csv"
 
@@ -40,13 +40,9 @@ def split_data():
 def save_split(splits):
     ''' Guarda en un CSV qué imagen quedó en cada conjunto, para que la división sea reproducible '''
 
+    rows = [{"conjunto": name, "imagen": Path(image).name} for name, pairs in splits.items() for image, _ in pairs]
     SPLIT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with open(SPLIT_FILE, "w", newline="", encoding="utf-8-sig") as file:
-        writer = csv.writer(file)
-        writer.writerow(["conjunto", "imagen"])
-        for name, pairs in splits.items():
-            for image_path, _ in pairs:
-                writer.writerow([name, Path(image_path).name])
+    pd.DataFrame(rows).to_csv(SPLIT_FILE, index=False, encoding="utf-8-sig")
 
 
 def load_pair(image_path, mask_path):
@@ -68,18 +64,34 @@ def load_pair(image_path, mask_path):
 
 
 def prepare(image, mask):
-    ''' Normaliza la imagen y ajusta las etiquetas de la máscara para el modelo '''
+    ''' Normaliza la imagen, ajusta las etiquetas y crea el peso de cada píxel '''
 
     image = tf.cast(image, tf.float32) / 255.0
     mask = tf.cast(mask, tf.int32)
 
-    # La clase 0 del dataset se marca para ignorarse; las clases 1 a 150 pasan a 0 a 149
-    mask = tf.where(mask == 0, IGNORE_LABEL, mask - 1)
-    return image, mask
+    # Peso 0 para los píxeles de la clase 0 del dataset, así no cuentan en la pérdida ni en las métricas
+    weights = tf.cast(mask > 0, tf.float32)
+
+    # Las clases 1 a 150 pasan a 0 a 149; los píxeles de la clase 0 quedan en 0, pero con peso 0
+    mask = tf.maximum(mask - 1, 0)
+    return image, mask, weights
 
 
-def make_dataset(pairs, training=False, cache_name=None):
-    ''' Arma el pipeline de un conjunto: lectura, redimensión, caché, revoltura, normalización y batches '''
+def random_flip(image, mask, weights):
+    ''' Voltea horizontalmente la imagen, su máscara y sus pesos en la mitad de los casos '''
+
+    # Una sola decisión aleatoria para los tres, así la máscara sigue correspondiendo a la imagen
+    flip = tf.random.uniform(()) > 0.5
+
+    # El eje 1 es el ancho en los tres tensores, así que voltearlo es el efecto espejo
+    image = tf.where(flip, tf.reverse(image, axis=[1]), image)
+    mask = tf.where(flip, tf.reverse(mask, axis=[1]), mask)
+    weights = tf.where(flip, tf.reverse(weights, axis=[1]), weights)
+    return image, mask, weights
+
+
+def make_dataset(pairs, training=False, cache_name=None, augment=False):
+    ''' Arma el pipeline de un conjunto: lectura, redimensión, caché, revoltura, normalización, data augmentation y batches '''
 
     image_paths = [image for image, _ in pairs]
     mask_paths = [mask for _, mask in pairs]
@@ -100,20 +112,25 @@ def make_dataset(pairs, training=False, cache_name=None):
         dataset = dataset.shuffle(SHUFFLE_BUFFER, seed=SEED, reshuffle_each_iteration=True)
 
     dataset = dataset.map(prepare, num_parallel_calls=tf.data.AUTOTUNE)
+
+    # El volteo va después de la caché para que en cada época salga distinto
+    if augment:
+        dataset = dataset.map(random_flip, num_parallel_calls=tf.data.AUTOTUNE)
+
     dataset = dataset.batch(BATCH_SIZE)
 
     # Mientras la GPU entrena con un batch, el CPU ya prepara el siguiente
     return dataset.prefetch(tf.data.AUTOTUNE)
 
 
-def get_datasets():
-    ''' Regresa los datasets de entrenamiento, validación y prueba listos para el modelo '''
+def get_datasets(augment=False):
+    ''' Regresa los datasets de entrenamiento, validación y prueba; el data augmentation solo se aplica al entrenamiento '''
 
     splits = split_data()
     save_split(splits)
 
     # La prueba no usa caché porque solo se evalúa una vez
-    train = make_dataset(splits["entrenamiento"], training=True, cache_name="entrenamiento")
+    train = make_dataset(splits["entrenamiento"], training=True, cache_name="entrenamiento", augment=augment)
     val = make_dataset(splits["validacion"], cache_name="validacion")
     test = make_dataset(splits["prueba"])
     return train, val, test
@@ -127,7 +144,7 @@ def max_ram_gb():
 
 
 def main():
-    ''' Revisa el pipeline: tamaños de los conjuntos, forma de los batches, etiquetas, velocidad y RAM usada '''
+    ''' Revisa el pipeline: tamaños de los conjuntos, forma de los batches, etiquetas, pesos, velocidad y RAM usada '''
 
     splits = split_data()
     save_split(splits)
@@ -137,21 +154,26 @@ def main():
 
     train = make_dataset(splits["entrenamiento"], training=True, cache_name="entrenamiento")
     total_batches = int(np.ceil(len(splits["entrenamiento"]) / BATCH_SIZE))
-    labels = set()
+    labels, weight_values = set(), set()
+    zero_weight, total_pixels = 0, 0
     count = 0
 
     # Primera época completa: lee y redimensiona cada imagen y llena la caché
     print(f"\nPrimera época, sin caché, caché configurada en: {CACHE}")
     start = time.perf_counter()
-    for index, (images, masks) in enumerate(train, start=1):
+    for index, (images, masks, weights) in enumerate(train, start=1):
 
         if index == 1:
             print(f"  Batch de imágenes: {images.shape}, {images.dtype}, valores entre {images.numpy().min():.2f} y {images.numpy().max():.2f}")
             print(f"  Batch de máscaras: {masks.shape}, {masks.dtype}")
+            print(f"  Batch de pesos: {weights.shape}, {weights.dtype}")
 
-        # Las etiquetas se revisan en los primeros 100 batches para no frenar la medición de velocidad
+        # Etiquetas y pesos se revisan en los primeros 100 batches para no frenar la medición de velocidad
         if index <= 100:
             labels.update(np.unique(masks.numpy()).tolist())
+            weight_values.update(np.unique(weights.numpy()).tolist())
+            zero_weight += int(np.sum(weights.numpy() == 0))
+            total_pixels += weights.numpy().size
 
         count += images.shape[0]
 
@@ -163,15 +185,16 @@ def main():
     # Segunda pasada parcial: las imágenes ya salen de la caché
     count = 0
     start = time.perf_counter()
-    for images, _ in train.take(300):
+    for images, _, _ in train.take(300):
         count += images.shape[0]
     second_rate = count / (time.perf_counter() - start)
 
-    # Las etiquetas válidas son 0 a 149 y la etiqueta de ignorar
-    invalid = sorted(label for label in labels if not (0 <= label < NUM_CLASSES or label == IGNORE_LABEL))
+    invalid = sorted(label for label in labels if not 0 <= label < NUM_CLASSES)
 
     print(f"\nEtiquetas encontradas: {len(labels)} valores distintos, de {min(labels)} a {max(labels)}")
     print(f"Etiquetas fuera de rango: {invalid if invalid else 'ninguna'}")
+    print(f"Valores de los pesos: {sorted(weight_values)}")
+    print(f"Píxeles con peso 0, la clase 0 del dataset: {zero_weight / total_pixels * 100:.2f}%")
     print(f"Velocidad sin caché: {first_rate:.0f} imágenes por segundo")
     print(f"Velocidad con caché: {second_rate:.0f} imágenes por segundo")
     print(f"RAM máxima usada por el proceso: {max_ram_gb():.1f} GB")

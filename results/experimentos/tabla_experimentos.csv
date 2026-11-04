@@ -1,0 +1,3 @@
+﻿experimento,descripcion,epocas,tasa_aprendizaje,filtros_iniciales,niveles,dropout,batch,mejor_epoca,loss_entrenamiento,loss_validacion,exactitud_entrenamiento,exactitud_validacion,miou_entrenamiento,miou_validacion,minutos,augmentation
+v1,"U-Net base desde cero: 4 niveles, 32 filtros, batch normalization, Adam 0.001, 50 épocas",50,0.001,32,4,False,8,40,0.5261,1.7013,0.8361,0.6261,0.4204,0.1444,242.0,
+v2,v1 con data augmentation: volteo horizontal aleatorio en entrenamiento,50,0.001,32,4,False,8,50,0.672,1.4106,0.7921,0.6486,0.336,0.1596,244.2,True

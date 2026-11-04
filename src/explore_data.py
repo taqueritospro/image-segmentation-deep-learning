@@ -1,6 +1,5 @@
 ''' Explora ADE20K: verifica los archivos, mide las imágenes y calcula la distribución de clases '''
 
-import csv
 from collections import Counter
 
 import matplotlib
@@ -10,6 +9,7 @@ matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from PIL import Image
 
 from config import ANNOTATIONS_DIR, CLASS_INFO_FILE, EXPECTED_COUNTS, IMAGES_DIR, IMG_SIZE, NUM_CLASSES, RESULTS_DIR, SPLITS
@@ -148,32 +148,28 @@ def format_modes(modes):
 def save_summary(files, stats):
     ''' Guarda en un CSV el resumen de archivos y tamaños de cada conjunto '''
 
-    rows = [
-        ("imagenes_esperadas", lambda s: EXPECTED_COUNTS[s]),
-        ("imagenes", lambda s: files[s]["images"]),
-        ("mascaras", lambda s: files[s]["masks"]),
-        ("imagenes_sin_mascara", lambda s: files[s]["without_mask"]),
-        ("mascaras_sin_imagen", lambda s: files[s]["without_image"]),
-        ("mascaras_de_tamano_distinto", lambda s: stats[s]["size_mismatch"]),
-        ("mascaras_con_valores_mayores_a_150", lambda s: stats[s]["out_of_range"]),
-        ("ancho_min", lambda s: stats[s]["widths"].min()),
-        ("ancho_max", lambda s: stats[s]["widths"].max()),
-        ("ancho_media", lambda s: round(stats[s]["widths"].mean(), 1)),
-        ("ancho_mediana", lambda s: np.median(stats[s]["widths"])),
-        ("alto_min", lambda s: stats[s]["heights"].min()),
-        ("alto_max", lambda s: stats[s]["heights"].max()),
-        ("alto_media", lambda s: round(stats[s]["heights"].mean(), 1)),
-        ("alto_mediana", lambda s: np.median(stats[s]["heights"])),
-        ("modos_de_color_imagenes", lambda s: format_modes(stats[s]["image_modes"])),
-        ("modos_de_color_mascaras", lambda s: format_modes(stats[s]["mask_modes"])),
+    metrics = [
+        "imagenes_esperadas", "imagenes", "mascaras", "imagenes_sin_mascara", "mascaras_sin_imagen",
+        "mascaras_de_tamano_distinto", "mascaras_con_valores_mayores_a_150",
+        "ancho_min", "ancho_max", "ancho_media", "ancho_mediana",
+        "alto_min", "alto_max", "alto_media", "alto_mediana",
+        "modos_de_color_imagenes", "modos_de_color_mascaras",
     ]
+    table = pd.DataFrame({"metrica": metrics})
+
+    # Una columna por conjunto, con los valores en el mismo orden que la lista de métricas
+    for s in SPLITS:
+        widths, heights = stats[s]["widths"], stats[s]["heights"]
+        table[SPLIT_NAMES[s]] = [
+            EXPECTED_COUNTS[s], files[s]["images"], files[s]["masks"], files[s]["without_mask"], files[s]["without_image"],
+            stats[s]["size_mismatch"], stats[s]["out_of_range"],
+            widths.min(), widths.max(), round(widths.mean(), 1), np.median(widths),
+            heights.min(), heights.max(), round(heights.mean(), 1), np.median(heights),
+            format_modes(stats[s]["image_modes"]), format_modes(stats[s]["mask_modes"]),
+        ]
 
     # utf-8-sig hace que Excel muestre bien los acentos al abrir el CSV
-    with open(OUTPUT_DIR / "resumen.csv", "w", newline="", encoding="utf-8-sig") as file:
-        writer = csv.writer(file)
-        writer.writerow(["metrica"] + [SPLIT_NAMES[s] for s in SPLITS])
-        for name, value in rows:
-            writer.writerow([name] + [value(s) for s in SPLITS])
+    table.to_csv(OUTPUT_DIR / "resumen.csv", index=False, encoding="utf-8-sig")
 
 
 def class_percentages(split_stats):
@@ -190,19 +186,14 @@ def save_class_distribution(stats, names):
 
     percentages = {s: class_percentages(stats[s]) for s in SPLITS}
 
-    with open(OUTPUT_DIR / "distribucion_clases.csv", "w", newline="", encoding="utf-8-sig") as file:
-        writer = csv.writer(file)
-        header = ["id", "nombre"]
-        for s in SPLITS:
-            header += [f"pct_pixeles_{SPLIT_NAMES[s]}", f"pct_imagenes_{SPLIT_NAMES[s]}"]
-        writer.writerow(header)
+    class_ids = range(NUM_CLASSES + 1)
+    table = pd.DataFrame({"id": class_ids, "nombre": [names.get(c, "") for c in class_ids]})
+    for s in SPLITS:
+        pixel_pct, image_pct = percentages[s]
+        table[f"pct_pixeles_{SPLIT_NAMES[s]}"] = np.round(pixel_pct, 4)
+        table[f"pct_imagenes_{SPLIT_NAMES[s]}"] = np.round(image_pct, 2)
 
-        for class_id in range(NUM_CLASSES + 1):
-            row = [class_id, names.get(class_id, "")]
-            for s in SPLITS:
-                pixel_pct, image_pct = percentages[s]
-                row += [round(pixel_pct[class_id], 4), round(image_pct[class_id], 2)]
-            writer.writerow(row)
+    table.to_csv(OUTPUT_DIR / "distribucion_clases.csv", index=False, encoding="utf-8-sig")
 
     return percentages
 

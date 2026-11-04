@@ -18,3 +18,4 @@ __pycache__/
 
 # Archivos temporales de Word (se crean mientras el .docx está abierto)
 ~$*
+results/predicciones/

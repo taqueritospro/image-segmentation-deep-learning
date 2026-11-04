@@ -38,7 +38,7 @@ Las anotaciones del set de prueba oficial no son públicas, por eso el set de en
 
 ## Requisitos
 
-- Linux. El proyecto se desarrolla en Fedora 44.
+- Linux. El proyecto se desarrolla en Fedora 45 (anteriormente Fedora 44).
 - Python 3.13.
 - GPU NVIDIA con el driver instalado. Es opcional, pero sin ella el entrenamiento es mucho más lento.
 
@@ -98,7 +98,56 @@ image-segmentation-deep-learning/
 
 ## Uso
 
-Se documentará cuando estén listos el entrenamiento, la evaluación y la interfaz.
+Todos los comandos se corren desde la raíz del repositorio y con el entorno activo.
+
+### Entrenamiento
+
+```bash
+python src/train.py
+```
+
+El nombre del experimento y sus hiperparámetros están como constantes al inicio de `src/train.py`, para un experimento nuevo se cambian esas líneas, el script guarda el mejor modelo según el mIoU de validación en `models/<experimento>.keras`, el historial y las curvas de loss y mIoU en `results/experimentos/<experimento>/` y agrega una fila a `results/experimentos/tabla_experimentos.csv`.
+
+Cada entrenamiento de 50 épocas tarda alrededor de 4 horas con una RTX 3050 de 4 GB.
+
+### Evaluación
+
+```bash
+python src/evaluate.py v2
+```
+
+Evalúa el modelo indicado en validación y en prueba, calcula la loss, la exactitud por píxel, el mIoU y el IoU de cada clase y lo compara con la frecuencia de cada clase en entrenamiento, los resultados se guardan en `results/evaluacion/<experimento>/`.
+
+### Predicciones
+
+```bash
+# Puede hacerse en una foto directamente
+python src/predict.py v2 ruta/a/foto.jpg
+
+# O en su defecto una carpeta
+python src/predict.py v2 ruta/a/carpeta/
+```
+
+Recibe una o varias fotos o carpetas, predice la clase de cada píxel y guarda una figura por foto en `results/predicciones/<experimento>/` con la foto original, la máscara predicha y la máscara sobre la foto, en caso de que la foto sea del dataset también muestra la máscara real, en la consola imprime las clases detectadas con el porcentaje de la foto que ocupa cada una, las figuras no se suben al repositorio porque pueden mostrar imágenes de ADE20K.
+
+### Pruebas del entorno
+
+```bash
+python src/data.py
+python src/gpu_memory_probe.py
+python src/gpu_benchmark.py
+```
+
+`data.py` revisa el pipeline de datos, `gpu_memory_probe.py` mide cuánta memoria de la GPU puede reservar TensorFlow y `gpu_benchmark.py` mide el tiempo por paso con distintos tamaños de batch, filtros y precisión numérica.
+
+## Resultados
+
+| Experimento | Cambio | mIoU validación | mIoU prueba |
+|---|---|---|---|
+| v1 | U-Net base desde cero | 0.144 | 0.144 |
+| v2 | v1 con volteo horizontal aleatorio | 0.160 | 0.166 |
+ 
+El detalle de cada experimento está en `results/experimentos/` y en el paper.
 
 ## Cita del dataset
 

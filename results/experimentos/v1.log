@@ -1,0 +1,283 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793756703.604580   48663 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1793756703.635139   48663 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793756704.483997   48663 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1793756705.375529   48663 gpu_process_state.cc:208] Using CUDA malloc Async allocator for GPU: 0
+I0000 00:00:1793756705.377100   48663 gpu_device.cc:2043] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 2196 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 3050 Laptop GPU, pci bus id: 0000:01:00.0, compute capability: 8.6
+/home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/.venv/lib64/python3.13/site-packages/keras/src/trainers/epoch_iterator.py:74: UserWarning: `shuffle=True` was passed, but will be ignored since the data `x` was provided as a tf.data.Dataset. The Dataset is expected to already be shuffled (via `.shuffle(buffer_size)`).
+  self.data_adapter = data_adapters.get_data_adapter(
+Experimento v1: 8,645,686 parámetros
+Epoch 1/50
+/home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/.venv/lib64/python3.13/site-packages/keras/src/metrics/iou_metrics.py:114: UserWarning: You are passing weight as `float`, but dtype is `int`. This may result in an incorrect weight due to type casting Consider using integer weights.
+  warnings.warn(
+I0000 00:00:1793756711.016421   48709 service.cc:153] XLA service 0x7f5ac0e734a0 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+I0000 00:00:1793756711.016461   48709 service.cc:161]   StreamExecutor [0]: NVIDIA GeForce RTX 3050 Laptop GPU, Compute Capability 8.6 (Driver: 13.4.0; Runtime: 12.9.0; Toolkit: 12.5.0; DNN: 9.27.0)
+I0000 00:00:1793756711.138253   48709 dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+W0000 00:00:1793756711.343459   48709 assert_op.cc:39] Ignoring Assert operator compile_loss/sparse_categorical_crossentropy/SparseSoftmaxCrossEntropyWithLogits/assert_equal_1/Assert/Assert
+I0000 00:00:1793756712.306317   48709 cuda_dnn.cc:461] Loaded cuDNN version 92700
+I0000 00:00:1793756746.587272   48709 device_compiler.h:208] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+W0000 00:00:1793757026.685469   48708 assert_op.cc:39] Ignoring Assert operator compile_loss/sparse_categorical_crossentropy/SparseSoftmaxCrossEntropyWithLogits/assert_equal_1/Assert/Assert
+W0000 00:00:1793757053.998518   48706 assert_op.cc:39] Ignoring Assert operator compile_loss/sparse_categorical_crossentropy/SparseSoftmaxCrossEntropyWithLogits/assert_equal_1/Assert/Assert
+W0000 00:00:1793757065.896691   48701 assert_op.cc:39] Ignoring Assert operator compile_loss/sparse_categorical_crossentropy/SparseSoftmaxCrossEntropyWithLogits/assert_equal_1/Assert/Assert
+
+Epoch 1: val_miou improved from None to 0.02626, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 1: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 361s - 159ms/step - exactitud: 0.3912 - loss: 2.3847 - miou: 0.0204 - val_exactitud: 0.4302 - val_loss: 2.1493 - val_miou: 0.0263
+Epoch 2/50
+
+Epoch 2: val_miou improved from 0.02626 to 0.03776, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 2: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 290s - 127ms/step - exactitud: 0.4634 - loss: 2.0247 - miou: 0.0309 - val_exactitud: 0.4951 - val_loss: 1.9154 - val_miou: 0.0378
+Epoch 3/50
+
+Epoch 3: val_miou improved from 0.03776 to 0.03804, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 3: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.4998 - loss: 1.8755 - miou: 0.0373 - val_exactitud: 0.4978 - val_loss: 1.8684 - val_miou: 0.0380
+Epoch 4/50
+
+Epoch 4: val_miou improved from 0.03804 to 0.04786, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 4: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 290s - 127ms/step - exactitud: 0.5229 - loss: 1.7728 - miou: 0.0431 - val_exactitud: 0.5464 - val_loss: 1.6639 - val_miou: 0.0479
+Epoch 5/50
+
+Epoch 5: val_miou did not improve from 0.04786
+2274/2274 - 289s - 127ms/step - exactitud: 0.5422 - loss: 1.6939 - miou: 0.0486 - val_exactitud: 0.5288 - val_loss: 1.7099 - val_miou: 0.0473
+Epoch 6/50
+
+Epoch 6: val_miou improved from 0.04786 to 0.05761, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 6: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.5558 - loss: 1.6337 - miou: 0.0531 - val_exactitud: 0.5735 - val_loss: 1.5846 - val_miou: 0.0576
+Epoch 7/50
+
+Epoch 7: val_miou improved from 0.05761 to 0.06489, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 7: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.5709 - loss: 1.5735 - miou: 0.0585 - val_exactitud: 0.5816 - val_loss: 1.5272 - val_miou: 0.0649
+Epoch 8/50
+
+Epoch 8: val_miou improved from 0.06489 to 0.06654, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 8: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.5807 - loss: 1.5301 - miou: 0.0626 - val_exactitud: 0.5817 - val_loss: 1.5229 - val_miou: 0.0665
+Epoch 9/50
+
+Epoch 9: val_miou improved from 0.06654 to 0.07244, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 9: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.5913 - loss: 1.4845 - miou: 0.0680 - val_exactitud: 0.5989 - val_loss: 1.4765 - val_miou: 0.0724
+Epoch 10/50
+
+Epoch 10: val_miou improved from 0.07244 to 0.07406, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 10: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.6008 - loss: 1.4484 - miou: 0.0725 - val_exactitud: 0.5987 - val_loss: 1.4526 - val_miou: 0.0741
+Epoch 11/50
+
+Epoch 11: val_miou did not improve from 0.07406
+2274/2274 - 289s - 127ms/step - exactitud: 0.6100 - loss: 1.4066 - miou: 0.0771 - val_exactitud: 0.5941 - val_loss: 1.4711 - val_miou: 0.0699
+Epoch 12/50
+
+Epoch 12: val_miou improved from 0.07406 to 0.07849, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 12: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.6178 - loss: 1.3701 - miou: 0.0820 - val_exactitud: 0.6099 - val_loss: 1.4126 - val_miou: 0.0785
+Epoch 13/50
+
+Epoch 13: val_miou improved from 0.07849 to 0.08480, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 13: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.6256 - loss: 1.3357 - miou: 0.0866 - val_exactitud: 0.6122 - val_loss: 1.3989 - val_miou: 0.0848
+Epoch 14/50
+
+Epoch 14: val_miou improved from 0.08480 to 0.08965, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 14: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.6336 - loss: 1.2994 - miou: 0.0924 - val_exactitud: 0.6138 - val_loss: 1.3966 - val_miou: 0.0897
+Epoch 15/50
+
+Epoch 15: val_miou improved from 0.08965 to 0.09174, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 15: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.6406 - loss: 1.2709 - miou: 0.0973 - val_exactitud: 0.6111 - val_loss: 1.4153 - val_miou: 0.0917
+Epoch 16/50
+
+Epoch 16: val_miou improved from 0.09174 to 0.09715, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 16: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.6489 - loss: 1.2353 - miou: 0.1039 - val_exactitud: 0.6298 - val_loss: 1.3351 - val_miou: 0.0971
+Epoch 17/50
+
+Epoch 17: val_miou improved from 0.09715 to 0.09726, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 17: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.6562 - loss: 1.2012 - miou: 0.1113 - val_exactitud: 0.6244 - val_loss: 1.3682 - val_miou: 0.0973
+Epoch 18/50
+
+Epoch 18: val_miou improved from 0.09726 to 0.10235, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 18: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.6639 - loss: 1.1700 - miou: 0.1174 - val_exactitud: 0.6324 - val_loss: 1.3335 - val_miou: 0.1023
+Epoch 19/50
+
+Epoch 19: val_miou did not improve from 0.10235
+2274/2274 - 289s - 127ms/step - exactitud: 0.6733 - loss: 1.1295 - miou: 0.1273 - val_exactitud: 0.6209 - val_loss: 1.3879 - val_miou: 0.1007
+Epoch 20/50
+
+Epoch 20: val_miou improved from 0.10235 to 0.10919, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 20: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.6796 - loss: 1.0987 - miou: 0.1347 - val_exactitud: 0.6284 - val_loss: 1.3467 - val_miou: 0.1092
+Epoch 21/50
+
+Epoch 21: val_miou improved from 0.10919 to 0.11304, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 21: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.6879 - loss: 1.0651 - miou: 0.1450 - val_exactitud: 0.6237 - val_loss: 1.3930 - val_miou: 0.1130
+Epoch 22/50
+
+Epoch 22: val_miou improved from 0.11304 to 0.11565, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 22: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.6977 - loss: 1.0263 - miou: 0.1550 - val_exactitud: 0.6242 - val_loss: 1.3968 - val_miou: 0.1156
+Epoch 23/50
+
+Epoch 23: val_miou improved from 0.11565 to 0.11656, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 23: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.7057 - loss: 0.9914 - miou: 0.1659 - val_exactitud: 0.6268 - val_loss: 1.3972 - val_miou: 0.1166
+Epoch 24/50
+
+Epoch 24: val_miou did not improve from 0.11656
+2274/2274 - 289s - 127ms/step - exactitud: 0.7144 - loss: 0.9588 - miou: 0.1765 - val_exactitud: 0.6295 - val_loss: 1.3892 - val_miou: 0.1165
+Epoch 25/50
+
+Epoch 25: val_miou improved from 0.11656 to 0.11819, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 25: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.7238 - loss: 0.9230 - miou: 0.1888 - val_exactitud: 0.6377 - val_loss: 1.3988 - val_miou: 0.1182
+Epoch 26/50
+
+Epoch 26: val_miou improved from 0.11819 to 0.12570, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 26: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 290s - 127ms/step - exactitud: 0.7322 - loss: 0.8886 - miou: 0.2012 - val_exactitud: 0.6333 - val_loss: 1.4106 - val_miou: 0.1257
+Epoch 27/50
+
+Epoch 27: val_miou did not improve from 0.12570
+2274/2274 - 289s - 127ms/step - exactitud: 0.7404 - loss: 0.8585 - miou: 0.2134 - val_exactitud: 0.6229 - val_loss: 1.4818 - val_miou: 0.1249
+Epoch 28/50
+
+Epoch 28: val_miou improved from 0.12570 to 0.12682, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 28: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.7505 - loss: 0.8209 - miou: 0.2291 - val_exactitud: 0.6226 - val_loss: 1.4756 - val_miou: 0.1268
+Epoch 29/50
+
+Epoch 29: val_miou improved from 0.12682 to 0.13121, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 29: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.7591 - loss: 0.7897 - miou: 0.2426 - val_exactitud: 0.6216 - val_loss: 1.4830 - val_miou: 0.1312
+Epoch 30/50
+
+Epoch 30: val_miou did not improve from 0.13121
+2274/2274 - 289s - 127ms/step - exactitud: 0.7668 - loss: 0.7626 - miou: 0.2575 - val_exactitud: 0.6230 - val_loss: 1.5555 - val_miou: 0.1278
+Epoch 31/50
+
+Epoch 31: val_miou improved from 0.13121 to 0.13446, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 31: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.7750 - loss: 0.7318 - miou: 0.2729 - val_exactitud: 0.6342 - val_loss: 1.5003 - val_miou: 0.1345
+Epoch 32/50
+
+Epoch 32: val_miou improved from 0.13446 to 0.13557, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 32: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.7839 - loss: 0.7025 - miou: 0.2897 - val_exactitud: 0.6280 - val_loss: 1.5336 - val_miou: 0.1356
+Epoch 33/50
+
+Epoch 33: val_miou did not improve from 0.13557
+2274/2274 - 289s - 127ms/step - exactitud: 0.7914 - loss: 0.6745 - miou: 0.3057 - val_exactitud: 0.6275 - val_loss: 1.5521 - val_miou: 0.1352
+Epoch 34/50
+
+Epoch 34: val_miou did not improve from 0.13557
+2274/2274 - 289s - 127ms/step - exactitud: 0.7985 - loss: 0.6519 - miou: 0.3208 - val_exactitud: 0.6178 - val_loss: 1.6417 - val_miou: 0.1300
+Epoch 35/50
+
+Epoch 35: val_miou did not improve from 0.13557
+2274/2274 - 289s - 127ms/step - exactitud: 0.8065 - loss: 0.6248 - miou: 0.3398 - val_exactitud: 0.6240 - val_loss: 1.6975 - val_miou: 0.1347
+Epoch 36/50
+
+Epoch 36: val_miou did not improve from 0.13557
+2274/2274 - 289s - 127ms/step - exactitud: 0.8114 - loss: 0.6078 - miou: 0.3541 - val_exactitud: 0.6277 - val_loss: 1.6431 - val_miou: 0.1331
+Epoch 37/50
+
+Epoch 37: val_miou did not improve from 0.13557
+2274/2274 - 289s - 127ms/step - exactitud: 0.8171 - loss: 0.5882 - miou: 0.3689 - val_exactitud: 0.6207 - val_loss: 1.7105 - val_miou: 0.1339
+Epoch 38/50
+
+Epoch 38: val_miou improved from 0.13557 to 0.13570, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 38: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.8255 - loss: 0.5608 - miou: 0.3908 - val_exactitud: 0.6271 - val_loss: 1.6572 - val_miou: 0.1357
+Epoch 39/50
+
+Epoch 39: val_miou did not improve from 0.13570
+2274/2274 - 289s - 127ms/step - exactitud: 0.8301 - loss: 0.5451 - miou: 0.4041 - val_exactitud: 0.6222 - val_loss: 1.7329 - val_miou: 0.1347
+Epoch 40/50
+
+Epoch 40: val_miou improved from 0.13570 to 0.14442, saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+
+Epoch 40: finished saving model to /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+2274/2274 - 289s - 127ms/step - exactitud: 0.8361 - loss: 0.5261 - miou: 0.4204 - val_exactitud: 0.6261 - val_loss: 1.7013 - val_miou: 0.1444
+Epoch 41/50
+
+Epoch 41: val_miou did not improve from 0.14442
+2274/2274 - 289s - 127ms/step - exactitud: 0.8417 - loss: 0.5069 - miou: 0.4384 - val_exactitud: 0.6197 - val_loss: 1.7362 - val_miou: 0.1400
+Epoch 42/50
+
+Epoch 42: val_miou did not improve from 0.14442
+2274/2274 - 289s - 127ms/step - exactitud: 0.8461 - loss: 0.4922 - miou: 0.4531 - val_exactitud: 0.6236 - val_loss: 1.7956 - val_miou: 0.1374
+Epoch 43/50
+
+Epoch 43: val_miou did not improve from 0.14442
+2274/2274 - 289s - 127ms/step - exactitud: 0.8506 - loss: 0.4774 - miou: 0.4662 - val_exactitud: 0.6225 - val_loss: 1.7906 - val_miou: 0.1373
+Epoch 44/50
+
+Epoch 44: val_miou did not improve from 0.14442
+2274/2274 - 289s - 127ms/step - exactitud: 0.8551 - loss: 0.4625 - miou: 0.4803 - val_exactitud: 0.6276 - val_loss: 1.7767 - val_miou: 0.1416
+Epoch 45/50
+
+Epoch 45: val_miou did not improve from 0.14442
+2274/2274 - 289s - 127ms/step - exactitud: 0.8589 - loss: 0.4497 - miou: 0.4948 - val_exactitud: 0.6315 - val_loss: 1.8516 - val_miou: 0.1370
+Epoch 46/50
+
+Epoch 46: val_miou did not improve from 0.14442
+2274/2274 - 289s - 127ms/step - exactitud: 0.8632 - loss: 0.4348 - miou: 0.5068 - val_exactitud: 0.6254 - val_loss: 1.8547 - val_miou: 0.1392
+Epoch 47/50
+
+Epoch 47: val_miou did not improve from 0.14442
+2274/2274 - 288s - 127ms/step - exactitud: 0.8675 - loss: 0.4218 - miou: 0.5221 - val_exactitud: 0.6094 - val_loss: 1.9972 - val_miou: 0.1354
+Epoch 48/50
+
+Epoch 48: val_miou did not improve from 0.14442
+2274/2274 - 286s - 126ms/step - exactitud: 0.8701 - loss: 0.4126 - miou: 0.5318 - val_exactitud: 0.6263 - val_loss: 1.9253 - val_miou: 0.1383
+Epoch 49/50
+
+Epoch 49: val_miou did not improve from 0.14442
+2274/2274 - 286s - 126ms/step - exactitud: 0.8728 - loss: 0.4036 - miou: 0.5406 - val_exactitud: 0.6152 - val_loss: 1.9944 - val_miou: 0.1327
+Epoch 50/50
+
+Epoch 50: val_miou did not improve from 0.14442
+2274/2274 - 286s - 126ms/step - exactitud: 0.8760 - loss: 0.3922 - miou: 0.5516 - val_exactitud: 0.6267 - val_loss: 1.9209 - val_miou: 0.1401
+
+Mejor época: 40, mIoU de validación 0.1444
+Modelo guardado en /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/models/v1.keras
+Historial y curvas en /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/results/experimentos/v1
+Fila agregada a /home/taqueritospro/Git/ConcentracionIA/evidencia-deep-learning/image-segmentation-deep-learning/results/experimentos/tabla_experimentos.csv

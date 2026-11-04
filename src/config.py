@@ -25,15 +25,11 @@ IMG_SIZE = 256
 NUM_CLASSES = 150
 SEED = 42
 
-# Etiqueta de los píxeles que se ignoran en la pérdida y las métricas; corresponde a la clase 0 del dataset
-
-IGNORE_LABEL = 255
-
 # Parámetros del pipeline de datos
 BATCH_SIZE = 8
 VAL_FRACTION = 0.1
 SHUFFLE_BUFFER = 1000
- 
+
 # Dónde se guarda la caché de las imágenes ya redimensionadas: "ram", "disk" o None para no usar caché
 CACHE = "ram"
 CACHE_DIR = DATA_DIR / "cache"
