@@ -1,6 +1,6 @@
 # Segmentación semántica de escenas con U-Net
 
-Proyecto académico de Deep Learning 
+Proyecto de Deep Learning 
 
 Subcompetencia SMA0401C Aprendizaje e IA
 
@@ -130,6 +130,14 @@ python src/predict.py v2 ruta/a/carpeta/
 
 Recibe una o varias fotos o carpetas, predice la clase de cada píxel y guarda una figura por foto en `results/predicciones/<experimento>/` con la foto original, la máscara predicha y la máscara sobre la foto, en caso de que la foto sea del dataset también muestra la máscara real, en la consola imprime las clases detectadas con el porcentaje de la foto que ocupa cada una, las figuras no se suben al repositorio porque pueden mostrar imágenes de ADE20K.
 
+### Interfaz
+
+```bash
+streamlit run app/app.py
+```
+
+Abre en el navegador una página local en `http://localhost:8501` donde se elige el modelo, se sube una foto y se muestra la foto original, la máscara predicha, la máscara sobre la foto y las clases detectadas con el porcentaje de la foto que ocupa cada una y en caso de que la foto sea del dataset también muestra la máscara real con su exactitud y su mIoU.
+
 ### Pruebas del entorno
 
 ```bash
@@ -148,6 +156,16 @@ python src/gpu_benchmark.py
 | v2 | v1 con volteo horizontal aleatorio | 0.160 | 0.166 |
  
 El detalle de cada experimento está en `results/experimentos/` y en el paper.
+
+## Estado del proyecto
+
+Esta es la versión final del proyecto, el modelo todavía se puede mejorar con los siguientes ajustes cada uno cambia una cosa respecto al anterior, los cuales son:
+
+1. Dropout en el decodificador y regularización L2 para seguir reduciendo el sobreajuste (overfit).
+2. Pesos por clase en la función de costo para mejorar las clases poco frecuentes.
+3. Entrenar durante más épocas ya que la mejor época de v2 fue la última y tuvo posibilidad de mejorar.
+4. Transfer learning con un codificador preentrenado en caso de que el modelo desde cero deje de funcionar.
+5. Una interfaz más elaborada en html con diseño de tipo chat, esto no mejora el modelo pero si la experiencia de usuario.
 
 ## Cita del dataset
 
